@@ -7,6 +7,7 @@ load_dotenv()
 class Config:
     # API Keys
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    HF_TOKEN = os.getenv("HF_TOKEN")
     
     # Model Names
     VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"

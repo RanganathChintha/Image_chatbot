@@ -1,6 +1,5 @@
 # retriever.py
-from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 from config import Config
 import logging
 import os
@@ -9,8 +8,8 @@ logging.basicConfig(level=Config.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 class Retriever:
-    def __init__(self):
-        self.embeddings = HuggingFaceEmbeddings(model_name=Config.EMBEDDER_MODEL)
+    def __init__(self, embeddings):
+        self.embeddings = embeddings
         self.faiss_index = None
         self.index_path = Config.FAISS_INDEX_PATH
     

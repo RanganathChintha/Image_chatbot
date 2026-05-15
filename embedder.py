@@ -1,5 +1,5 @@
 # embedder.py
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from config import Config
 import logging
 
