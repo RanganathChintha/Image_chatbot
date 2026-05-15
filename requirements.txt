@@ -1,0 +1,9 @@
+python-dotenv
+groq
+langchain
+langchain-community
+chromadb
+faiss-cpu
+huggingface-hub
+sentence-transformers
+pillow
