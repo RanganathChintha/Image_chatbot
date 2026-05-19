@@ -1,0 +1,10 @@
+python-dotenv
+groq
+langchain
+langchain-community
+langchain-huggingface
+chromadb
+faiss-cpu
+huggingface-hub
+sentence-transformers
+pillow
