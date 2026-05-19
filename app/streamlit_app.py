@@ -34,7 +34,6 @@ def save_uploaded_images(uploaded_files) -> list[Path]:
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
             temp_file.write(uploaded_file.getbuffer())
             saved_paths.append(Path(temp_file.name))
-        logger.info("Saved uploaded image '%s' to '%s'", uploaded_file.name, saved_paths[-1])
     return saved_paths
 
 
@@ -43,7 +42,6 @@ def get_rag_chain():
     """Create the RAG chain once per Streamlit session."""
     from core import RAGChain
 
-    logger.info("Creating cached RAG chain")
     return RAGChain()
 
 
@@ -80,7 +78,6 @@ def render_chat_history() -> None:
 
 def main() -> None:
     """Run the Streamlit app."""
-    logger.info("Rendering Streamlit app")
     st.set_page_config(page_title="Image Chatbot", layout="wide")
     initialize_session_state()
     render_sidebar()
@@ -103,14 +100,12 @@ def main() -> None:
     can_index = bool(uploaded_files)
     if st.button("Index images", type="primary", disabled=not can_index):
         try:
-            logger.info("Index images clicked with %s uploaded file(s)", len(uploaded_files))
             with st.spinner("Reading images and building the retrieval index..."):
                 image_paths = save_uploaded_images(uploaded_files)
                 get_rag_chain().index_images(image_paths)
 
             st.session_state.indexed = True
             st.session_state.image_count = len(image_paths)
-            logger.info("Indexed %s image(s) successfully", len(image_paths))
             st.success(f"Indexed {len(image_paths)} image(s).")
         except Exception as exc:
             st.session_state.indexed = False
@@ -126,7 +121,6 @@ def main() -> None:
 
     query = st.chat_input("Ask a question about the uploaded images")
     if query:
-        logger.info("Received user query: %s", query)
         st.session_state.messages.append({"role": "user", "content": query})
         with st.chat_message("user"):
             st.markdown(query)
@@ -137,7 +131,6 @@ def main() -> None:
             try:
                 with st.spinner("Thinking through the image context..."):
                     answer = get_rag_chain().ask(query)
-                logger.info("Generated answer for user query")
             except Exception as exc:
                 logger.exception("Could not generate answer")
                 answer = f"Could not generate an answer: {exc}"

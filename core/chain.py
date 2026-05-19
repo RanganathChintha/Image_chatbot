@@ -1,6 +1,5 @@
 """RAG orchestration for image question answering."""
 
-import logging
 from pathlib import Path
 
 from image_io import ImageLoader
@@ -8,14 +7,10 @@ from models import Embedder, LLMModel, ScoutVisionModel
 from storage import Retriever, VectorStore
 from text import TextSplitter
 
-logger = logging.getLogger(__name__)
-
 
 def log_workflow(step: str, message: str) -> None:
     """Log a workflow step in a terminal-friendly format."""
-    workflow_message = f"[WORKFLOW] {step} | {message}"
-    print(workflow_message, flush=True)
-    logger.info(workflow_message)
+    print(f"[WORKFLOW] {step} | {message}", flush=True)
 
 
 class RAGChain:

@@ -1,12 +1,8 @@
 """Text generation model adapter."""
 
-import logging
-
 from groq import Groq
 
 from config import Config
-
-logger = logging.getLogger(__name__)
 
 
 class LLMModel:
@@ -22,5 +18,4 @@ class LLMModel:
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
         )
-        logger.info("LLM generated response successfully")
         return message.choices[0].message.content

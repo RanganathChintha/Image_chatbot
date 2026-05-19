@@ -1,13 +1,10 @@
 """FAISS-based retrieval."""
 
-import logging
 import os
 
 from langchain_community.vectorstores import FAISS
 
 from config import Config
-
-logger = logging.getLogger(__name__)
 
 
 class Retriever:
@@ -22,7 +19,6 @@ class Retriever:
         """Create a FAISS index from text chunks."""
         self.faiss_index = FAISS.from_texts(texts=texts, embedding=self.embeddings)
         self.faiss_index.save_local(self.index_path)
-        logger.info("FAISS index created with %s texts", len(texts))
 
     def load_index(self) -> None:
         """Load an existing FAISS index if present."""
@@ -32,7 +28,6 @@ class Retriever:
                 self.embeddings,
                 allow_dangerous_deserialization=True,
             )
-            logger.info("FAISS index loaded successfully")
 
     def retrieve(self, query: str, k: int | None = None) -> list[str]:
         """Retrieve relevant documents."""
@@ -40,10 +35,7 @@ class Retriever:
             k = Config.RETRIEVAL_K
 
         if self.faiss_index is None:
-            logger.warning("FAISS index is not initialized")
             return []
 
         docs = self.faiss_index.similarity_search(query, k=k)
-        retrieved = [doc.page_content for doc in docs]
-        logger.info("Retrieved %s documents", len(retrieved))
-        return retrieved
+        return [doc.page_content for doc in docs]

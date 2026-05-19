@@ -1,12 +1,8 @@
 """Chroma vector store adapter."""
 
-import logging
-
 from langchain_community.vectorstores import Chroma
 
 from config import Config
-
-logger = logging.getLogger(__name__)
 
 
 class VectorStore:
@@ -24,7 +20,6 @@ class VectorStore:
             embedding=self.embeddings,
             persist_directory=self.persist_directory,
         )
-        logger.info("Added %s texts to Chroma vector store", len(texts))
         return self.db
 
     def get_db(self) -> Chroma:
@@ -34,5 +29,4 @@ class VectorStore:
                 persist_directory=self.persist_directory,
                 embedding_function=self.embeddings,
             )
-        logger.info("Retrieved Chroma vector store")
         return self.db

@@ -1,14 +1,11 @@
 """Vision model adapter."""
 
 import base64
-import logging
 from io import BytesIO
 
 from groq import Groq
 
 from config import Config
-
-logger = logging.getLogger(__name__)
 
 
 class ScoutVisionModel:
@@ -47,5 +44,4 @@ class ScoutVisionModel:
                 }
             ],
         )
-        logger.info("Text extracted successfully from image")
         return message.choices[0].message.content
